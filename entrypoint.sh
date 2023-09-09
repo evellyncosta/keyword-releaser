@@ -13,6 +13,9 @@ else
     exit 1
 fi
 
+# Construa o cabeçalho de autorização
+AUTH_HEADER="Authorization: token ${GITHUB_TOKEN}"
+
 env
 jq . < $EVENT_PATH
 
@@ -34,7 +37,7 @@ then
     then
         echo "## [TESTING] Keyword was found but no release was created."
     else
-        echo $DATA | http POST $URL | jq .
+        echo "$DATA" | http POST "$URL" "$AUTH_HEADER" | jq .
     fi
 # otherwise
 else
